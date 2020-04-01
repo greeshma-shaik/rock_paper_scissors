@@ -1,0 +1,106 @@
+import random
+import tkinter as tk
+import pygame as p
+HIGH_SCORE=0
+USER_SCORE = 0
+COMP_SCORE = 0
+USER_CHOICE = ""
+COMP_CHOICE = ""
+player=None
+p.mixer.init()
+p.mixer.music.load('C:\\Users\\greeshma\\Desktop\\bgm.mp3')
+p.mixer.music.play(6)
+p.mixer.music.rewind()
+
+def choice_to_number(choice):
+    rps = {'rock':2,'paper':0,'scissor':1}
+    return rps[choice]
+def number_to_choice(number):
+    rps={2:'rock',0:'paper',1:'scissor'}
+    return rps[number]
+def random_computer_choice():
+    return random.choice(['rock','paper','scissor'])
+def result(human_choice,comp_choice):
+    tk.Label(window,text="WINNER:",fg="brown").place(x=170,y=260)
+    global USER_SCORE
+    global COMP_SCORE
+    user=choice_to_number(human_choice)
+    comp=choice_to_number(comp_choice)
+    human_choice=human_choice+"   "
+    comp_choice=comp_choice+"   "
+    tk.Label(window,text=human_choice).place(x=252,y=180)
+    tk.Label(window,text=comp_choice).place(x=290,y=220)
+    lbl="WINNER:"
+
+    if(user==comp):
+        #lbl+=" none(TIE)           "
+        tk.Label(window,text=" none(TIE)            ").place(x=220,y=260)
+    elif(user>comp):
+        #lbl+="  you                 "
+        tk.Label(window,text=" you             ").place(x=220,y=260)
+        USER_SCORE+=1
+    else:
+        #lbl+="  computer               "
+        tk.Label(window,text=" computer                  ").place(x=220,y=260)
+        COMP_SCORE+=1
+   
+    uscore_disp=tk.Label(window,text=USER_SCORE)
+    uscore_disp.place(x=90,y=10)
+    tk.Label(window,text=COMP_SCORE).place(x=459,y=10)
+    #dsp_lbl.after(3000,dsp_lbl.forget)
+   
+def rock():
+    global USER_CHOICE
+    global COMP_CHOICE
+    USER_CHOICE='rock'
+    COMP_CHOICE=random_computer_choice()
+    result(USER_CHOICE,COMP_CHOICE)
+def paper():
+    global USER_CHOICE
+    global COMP_CHOICE
+    USER_CHOICE='paper'
+    COMP_CHOICE=random_computer_choice()
+    result(USER_CHOICE,COMP_CHOICE)
+def scissor():
+    global USER_CHOICE
+    global COMP_CHOICE
+    USER_CHOICE='scissor'
+    COMP_CHOICE=random_computer_choice()
+    result(USER_CHOICE,COMP_CHOICE)
+
+def stop():
+    p.mixer.music.pause()
+def resume():
+    p.mixer.music.unpause()
+def quit():
+    p.mixer.music.stop()
+    window.destroy()
+window = tk.Tk()
+window.geometry("500x500")
+window.resizable(0,0)
+window.title("Rock Paper Scissors Game")
+play_button=tk.Button(window,text="       pause      ",bg="sky blue",command=stop).place(x=210,y=300)
+tk.Button(window,text="      resume     ",bg="sky blue",command=resume).place(x=210,y=340)
+user_score_lbl=tk.Label(window,text="YOUR SCORE:")
+user_score_lbl.place(x=10,y=10)
+cscore_disp=tk.Label(window,text="COMPUTER SCORE: 0").place(x=350,y=10)
+uscore_disp=tk.Label(window,text=USER_SCORE)
+uscore_disp.place(x=90,y=10)
+tk.Label(window,text=" ").pack()
+tk.Label(window,text=" ").pack()
+btnrk=tk.Button(window,text="     ROCK     ",bg="pink",fg="black",activebackground="green",command=rock)
+btnrk.pack()
+tk.Label(window,text=" ").pack()
+btnsr=tk.Button(window,text="    PAPER    ",bg="light green",fg="black",activebackground="green",command=paper)
+btnsr.pack()
+tk.Label(window,text=" ").pack()
+btnppr=tk.Button(window,text="  SCISSORS  ",bg="yellow",fg="black",activebackground="green",command=scissor)
+btnppr.pack()
+tk.Label(window,text=" ").pack()
+tk.Label(window,text="USER CHOICE:",fg="red").place(x=170,y=180)
+tk.Label(window,text="COMPUTRER CHOICE:",fg="blue").place(x=170,y=220)
+tk.Label(window,text=" START GAME!!!!!!!        ",fg="purple").place(x=170,y=260)
+tk.Button(window,text="       QUIT        ",bg="cyan",fg="black",command=quit).place(x=210,y=380)
+tk.Label(window,text="HIGH SCORE:100",fg="purple").place(x=200,y=10)
+#tk.Button(window,text="       QUIT       ",bg="red",fg="white",command=finsh).place(x=210,y=300)
+window.mainloop()
